@@ -1,5 +1,8 @@
 # masterplan-frontend
 
+- Run the masterplan-backend project along this.
+- If you change the port of of backend or run it on a different machine on the network then please change the `target` in `vue.config.js` file too.
+
 ## Project setup
 ```
 npm install

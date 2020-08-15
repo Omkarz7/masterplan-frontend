@@ -6,23 +6,38 @@
 
       <!-- Login Form -->
       <form @submit.prevent="downloadMasterplan">
+        <input type="checkbox" v-model="sortByStartDate" />
+        <strong>Sort Masterplan by Start Date</strong>
+        <br />
         <input type="submit" value="Download" />
+        <br />
       </form>
+      <div id="formFooter">
+        <a href="#" @click="logout" class="underlineHover">Logout</a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      sortByStartDate: false
+    };
+  },
   methods: {
     downloadMasterplan() {
       this.$store
-        .dispatch("downloadMasterplan")
+        .dispatch("downloadMasterplan", this.sortByStartDate)
         .then(() => {})
         .catch(err => {
-          console.log(err);
           alert(err.statusCode + " - " + err.errorMessage);
         });
+    },
+    logout() {
+      sessionStorage.removeItem("authToken");
+      this.$router.push("/");
     }
   }
 };
@@ -50,6 +65,42 @@ h2 {
   display: inline-block;
   margin: 40px 8px 10px 8px;
   color: #cccccc;
+}
+
+a {
+  color: #92badd;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+#formFooter {
+  background-color: #f6f6f6;
+  border-top: 1px solid #dce8f1;
+  padding: 25px;
+  text-align: center;
+  -webkit-border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Simple CSS3 Fade-in Animation */
+.underlineHover:after {
+  display: block;
+  left: 0;
+  bottom: -10px;
+  width: 0;
+  height: 2px;
+  background-color: #56baed;
+  content: "";
+  transition: width 0.2s;
+}
+
+.underlineHover:hover {
+  color: #0d0d0d;
+}
+
+.underlineHover:hover:after {
+  width: 100%;
 }
 
 /* STRUCTURE */
@@ -85,6 +136,9 @@ h2.active {
 }
 
 /* FORM TYPOGRAPHY*/
+input[type="checkbox"]:hover {
+  padding-bottom: 20px;
+}
 
 input[type="submit"] {
   background-color: #56baed;
@@ -100,7 +154,7 @@ input[type="submit"] {
   box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
-  margin: 5px 20px 40px 20px;
+  margin: 20px 20px 30px 20px;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;

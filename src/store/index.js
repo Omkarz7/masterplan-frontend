@@ -28,18 +28,20 @@ export default new Vuex.Store({
           });
       });
     },
-    downloadMasterplan() {
+    downloadMasterplan(state, sortByStartDate) {
       return new Promise((resolve, reject) => {
-        ManagerService.downloadMasterplan()
+        ManagerService.downloadMasterplan(sortByStartDate)
           .then(response => {
-            console.log(response);
             var fileData = window.URL.createObjectURL(
               new Blob([response.data])
             );
             var fileLink = document.createElement("a");
             fileLink.href = fileData;
 
-            fileLink.setAttribute("download", "masterplan.csv");
+            var fileName = response.headers["content-disposition"]
+              .split("filename=")[1]
+              .split(";")[0];
+            fileLink.setAttribute("download", fileName);
             document.body.appendChild(fileLink);
 
             fileLink.click();

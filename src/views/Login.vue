@@ -33,7 +33,6 @@ export default {
           this.$router.push("/masterplan");
         })
         .catch(err => {
-          console.log(err);
           alert(err.statusCode + " - " + err.errorMessage);
         });
     }

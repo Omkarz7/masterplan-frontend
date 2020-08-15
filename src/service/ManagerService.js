@@ -18,7 +18,7 @@ server.interceptors.request.use(
 );
 
 export default {
-  downloadMasterplan() {
-    return server.post("/r/getMasterplan");
+  downloadMasterplan(sortByStartDate) {
+    return server.get("/r/getMasterplan?sortByStartDate=" + sortByStartDate);
   }
 };
